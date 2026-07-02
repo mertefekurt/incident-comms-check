@@ -6,12 +6,12 @@
 
 Validate incident communication drafts for impact, ETA, and owner clarity. It solves review drift by turning plain-text plans into deterministic CI-friendly findings.
 
-## Input Contract 1
+## Input Contract
 
 Accepts incident update draft. The reader supports plain text, JSON, JSONL, and CSV so the
 tool can fit into scripts, CI jobs, and review exports.
 
-## CLI Walkthrough 1
+## CLI Walkthrough
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -20,7 +20,7 @@ incident-comms-check examples/sample.txt --json --fail-on medium
 python -m incident_comms_check --help
 ```
 
-## Rule Surface 1
+## Rule Surface
 
 | Rule | Severity | Meaning |
 |---|---:|---|
@@ -28,7 +28,7 @@ python -m incident_comms_check --help
 | `missing-eta` | medium | ETA is missing |
 | `ownerless-update` | low | communication owner is missing |
 
-## Validation Notes 1
+## Validation Notes
 
 ```bash
 ruff check .
