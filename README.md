@@ -1,44 +1,36 @@
 # Incident Comms Check
 
+> A small command-line review pass for incident response.
+
 ![Incident Comms Check cover](assets/readme-cover.svg)
 
-> Validate incident communication drafts for impact, ETA, and owner clarity
+Validate incident communication drafts for impact, ETA, and owner clarity. In practice it is a narrow guardrail for incident response, ownership, release risk, and follow-up notes: one command, a concrete report, and very little ceremony.
 
-![stack](https://img.shields.io/badge/stack-Python-b45309?style=flat-square) ![python](https://img.shields.io/badge/python-3.11-be185d?style=flat-square) ![license](https://img.shields.io/badge/license-MIT-4b5563?style=flat-square) ![ci](https://img.shields.io/badge/ci-GitHub%20Actions-2563eb?style=flat-square)
+## Signals in plain English
 
-## At a glance
+- `unknown-impact` (high): impact is not clear. Fix: state affected users, tenants, or functions.
+- `missing-eta` (medium): ETA is missing. Fix: provide next update time or recovery estimate.
+- `ownerless-update` (low): communication owner is missing. Fix: assign a comms owner.
 
-| Area | Detail |
-| --- | --- |
-| Focus | incident response |
-| Command | `incident-comms-check` |
-| Formats | text, JSON, JSONL, CSV |
-| Output | Markdown table or JSON |
+## Input and report
 
-## What it checks
+The reader accepts text, JSON, JSONL, or CSV. The default report is readable in a terminal or pull request; `--json` keeps the same findings available to automation.
 
-| Rule | Severity | What it catches |
-| --- | --- | --- |
-| `unknown-impact` | high | impact is not clear |
-| `missing-eta` | medium | ETA is missing |
-| `ownerless-update` | low | communication owner is missing |
-
-## Try it locally
+## Demo
 
 ```bash
+git clone https://github.com/mertefekurt/incident-comms-check.git
+cd incident-comms-check
+python -m venv .venv
+source .venv/bin/activate
 python -m pip install -e ".[dev]"
 incident-comms-check examples/sample.txt
-incident-comms-check examples/sample.txt --json --fail-on medium
+incident-comms-check examples/sample.txt --json
 ```
 
-## Notes from the code
-
-`rules.py` keeps the project policy explicit, while `core.py` handles parsing and report rendering. The CLI stays thin on purpose so the checks are easy to test.
-
-## Verify
+## Sanity checks
 
 ```bash
-python -m pip install -e ".[dev]"
 ruff check .
 pytest
 python -m incident_comms_check --help
