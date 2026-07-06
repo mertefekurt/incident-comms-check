@@ -1,37 +1,33 @@
 # Incident Comms Check
 
-> A small command-line review pass for incident response.
-
 ![Incident Comms Check cover](assets/readme-cover.svg)
 
-Validate incident communication drafts for impact, ETA, and owner clarity. In practice it is a narrow guardrail for incident response, ownership, release risk, and follow-up notes: one command, a concrete report, and very little ceremony.
+Incident Comms Check is meant for quick pull-request checks around incident response. It favors explicit rules over a bulky dashboard.
 
-## Signals in plain English
+## What gets flagged
 
-- `unknown-impact` (high): impact is not clear. Fix: state affected users, tenants, or functions.
-- `missing-eta` (medium): ETA is missing. Fix: provide next update time or recovery estimate.
-- `ownerless-update` (low): communication owner is missing. Fix: assign a comms owner.
+| Signal | Level | What it flags | Fix direction |
+| --- | --- | --- | --- |
+| `unknown-impact` | high | impact is not clear | state affected users, tenants, or functions |
+| `missing-eta` | medium | ETA is missing | provide next update time or recovery estimate |
+| `ownerless-update` | low | communication owner is missing | assign a comms owner |
 
-## Input and report
+## Example lines
 
-The reader accepts text, JSON, JSONL, or CSV. The default report is readable in a terminal or pull request; `--json` keeps the same findings available to automation.
+```text
+risky: incident update impact unknown eta missing owner none
+clean: incident update impact 420 users eta 30m owner support-lead
+```
 
-## Demo
+## One-pass run
 
 ```bash
 git clone https://github.com/mertefekurt/incident-comms-check.git
 cd incident-comms-check
-python -m venv .venv
-source .venv/bin/activate
 python -m pip install -e ".[dev]"
 incident-comms-check examples/sample.txt
-incident-comms-check examples/sample.txt --json
 ```
 
-## Sanity checks
+## Finding map
 
-```bash
-ruff check .
-pytest
-python -m incident_comms_check --help
-```
+![Workflow diagram](assets/readme-diagram.svg)
